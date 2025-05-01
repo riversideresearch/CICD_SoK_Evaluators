@@ -3,7 +3,7 @@ project(lib_unpinned)
 
 include(FetchContent)
 
-add_library(lib_unpinned STATIC src/lib_unpinned/lib_unpinned.c)
+add_library(lib_unpinned STATIC src/lib_unpinned/evil_lib_unpinned.c)
 
 target_include_directories(lib_unpinned PUBLIC src/lib_unpinned/include)
 
