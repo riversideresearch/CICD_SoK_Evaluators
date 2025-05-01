@@ -1,0 +1,37 @@
+name: Use Unpinned Dependency
+
+on:
+  workflow_dispatch:
+
+jobs:
+  use_unpinned_dep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        
+      - name: Build Unpinned Dependency Attack
+        run: |
+          cd $GITHUB_WORKSPACE/src/unpinned_dep
+          mkdir build && cd build
+          sudo apt install -y cmake make
+          cmake ..
+          make
+          ./unpinned_eval
+
+  use_unpinned_dep_cimon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cycodelabs/cimon-action@v0
+
+      - name: Check out repo
+        uses: actions/checkout@v4
+        
+      - name: Build Unpinned Dependency Attack
+        run: |
+          cd $GITHUB_WORKSPACE/src/unpinned_dep
+          mkdir build && cd build
+          sudo apt install -y cmake make
+          cmake ..
+          make
+          ./unpinned_eval

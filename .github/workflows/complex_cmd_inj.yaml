@@ -1,0 +1,27 @@
+name: Complex Command Injection
+
+on: 
+  issues:
+    types: opened
+
+jobs:
+  complex_command_injection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open door for PWN Attack
+        run: |
+          echo "${{
+            github.event.issue.title
+            }}"
+          echo "I'm sure that had absolutely zero repercussions."
+  
+  complex_command_injection_cimon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cycodelabs/cimon-action@v0
+      - name: Open door for PWN Attack
+        run: |
+          echo "${{
+            github.event.issue.title
+            }}"
+          echo "I'm sure that had absolutely zero repercussions."

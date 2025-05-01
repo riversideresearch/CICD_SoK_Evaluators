@@ -1,0 +1,51 @@
+name: Install Known Bad Dependency
+
+on:
+  workflow_dispatch:  
+
+jobs:
+  install_known_bad_dep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache apt package
+        id: cache-apt
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-apt-package
+        with:
+          # Apt cached files are stored in /var/cache/apt/archives/
+          path: /var/cache/apt/archives/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/src/apt-list.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: sudo apt-get -y update && grep -vE '^#' src/apt-list.txt | xargs sudo apt install -y
+
+  install_known_bad_dep_cimon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cycodelabs/cimon-action@v0
+
+      - uses: actions/checkout@v4
+
+      - name: Cache apt package
+        id: cache-apt
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-apt-package
+        with:
+          # Apt cached files are stored in /var/cache/apt/archives/
+          path: /var/cache/apt/archives/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/src/apt-list.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: sudo apt-get -y update && grep -vE '^#' src/apt-list.txt | xargs sudo apt install -y

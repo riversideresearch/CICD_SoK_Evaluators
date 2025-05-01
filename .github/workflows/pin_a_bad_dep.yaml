@@ -1,0 +1,32 @@
+##################################################################
+# 
+# Pin a bad dep
+# 
+# A workflow which properly pins its dependencies, but they are
+# pinned to versions containing known or unknown CVEs
+# 
+##################################################################
+
+name: Pin A Bad Dependency
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pin_bad_dep:
+    runs-on: ubuntu-latest
+    steps:
+      # This harden runner version is susceptible to a known command injection vulnerability,
+      # as reported on the GHSA: https://github.com/advisories/GHSA-g85v-wf27-67xc
+      - uses: step-security/harden-runner@446798f8213ac2e75931c1b0769676d927801858 # v2.10.0
+        with:
+          egress-policy: audit
+      
+      # Simulate some pipeline behavior/work
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Simulate work
+        run: |
+          echo "Simulating Work..."
+          sleep 10
+          echo "Simulated work completed."
